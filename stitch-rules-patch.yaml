@@ -1,0 +1,20 @@
+kind: Rules
+metadata:
+  namespace: k8s-labels-patch
+spec:
+  - condition:
+      deployedType: k8s.Resources
+    name: k8s.AddLabelPatch
+    processor:
+      - type: patch
+        description: "Using patching to create and change content"
+        parameters:
+          patch:
+            - op: add
+              path: "/metadata/newlabel"
+              value: "label-added-by-json-patch"
+            - op: remove
+              path: "/metadata/labels/app1"
+            - op: replace
+              path: "/metadata/labels/run1"
+              value: "label-replaced-by-json-patch"
