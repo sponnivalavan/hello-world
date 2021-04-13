@@ -17,6 +17,7 @@ spec:
                 "labels": {
                     "appName": "${params.application}",
                     "const": "${params.const}"}}}
+---
 kind: Rules
 metadata:
   namespace: k8s-freemarker-macro-labels
