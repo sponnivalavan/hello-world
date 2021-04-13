@@ -1,0 +1,33 @@
+kind: Macros
+metadata:
+  namespace: k8s-freemarker-macro-labels
+spec:
+  - name: "k8s.MacroLabels"
+    description: This is a macro for adding labels
+    parameters:
+      application: "#{#ctx.getDeployedApplication().getName()}"
+      const: default-value
+    processor:
+      - type: freemarker
+        description: "Adding app and env label"
+        parameters:
+          template: |
+              {
+                "metadata" : {
+                "labels": {
+                    "appName": "${params.application}",
+                    "const": "${params.const}"}}}
+---
+kind: Rules
+metadata:
+  namespace: k8s-freemarker-macro-labels
+spec:
+  - name: "k8s.AddFreemarkerLabels"
+    condition:
+      deployedType: k8s.Resources
+    processor:
+      - type: k8s-freemarker-macro-labels:k8s.MacroLabels
+        description: "Adding freemarker macro"
+        weight: 10
+        parameters:
+          application: "#{#ctx.getDeployedApplication().getName()}"
