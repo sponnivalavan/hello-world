@@ -17,17 +17,3 @@ spec:
                 "labels": {
                     "appName": "${params.application}",
                     "const": "${params.const}"}}}
----
-kind: Rules
-metadata:
-  namespace: k8s-freemarker-macro-labels
-spec:
-  - name: "k8s.AddFreemarkerLabels"
-    condition:
-      deployedType: k8s.Resources
-    processor:
-      - type: k8s-freemarker-macro-labels:k8s.MacroLabels
-        description: "Adding freemarker macro"
-        weight: 10
-        parameters:
-          application: "#{#ctx.getDeployedApplication().getName()}"
