@@ -1,0 +1,22 @@
+kind: Rules
+metadata:
+  namespace: k8s-labels-groovy
+spec:
+  - condition:
+      deployedType: k8s.Resources
+    name: k8s.AddLabelGroovy
+    processor:
+      - type: groovy
+        description: "Using groovy processor with inline groovy script."      
+        parameters:
+           script: |
+            import com.xebialabs.deployit.plugin.stitch.service.engine.processor.handler.groovy.MapFunction
+            def stitch(spec, params, document, ctx) {
+               document.map('$..labels', new MapFunction() {
+                 Object map(currentValue) {
+                   currentValue.put("myCustomLabel", "myGroovyValue")
+                   currentValue
+                 }
+               })
+               document.getMutatedDocument()
+            }
