@@ -1,0 +1,24 @@
+kind: Rules
+metadata: 
+  namespace: k8s-add-labelserrors
+spec: 
+  - 
+    condition: 
+      deployedType: k8s.Resources
+    name: 
+    processor: 
+      - 
+        description: "Adding label to kubernetes spec"
+        merge: 
+          type: overlay
+        parameters: 
+          template: |-
+              { "metadata" : {
+                 "labels": {
+                   "labelToAdd": "addedLabel"
+                 }
+                }
+              }
+        phase: POST_FLIGHT
+        type: freemarker
+        weight: 30
