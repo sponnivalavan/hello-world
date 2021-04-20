@@ -1,0 +1,24 @@
+kind: Rules
+metadata: 
+  namespace: k8s-add-labels-blankphase
+spec: 
+  - 
+    condition: 
+      deployedType: k8s.Resources
+    name: k8s.AddGroovyLabel
+    processor: 
+      - 
+        description: "Adding label to kubernetes spec"
+        merge: 
+          type: overlay
+        parameters: 
+          template: |-
+              { "metadata" : {
+                 "labels": {
+                   "labelToAdd": "addedLabel"
+                 }
+                }
+              }
+        phase: 
+        type: freemarker
+        weight: 30
